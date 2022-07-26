@@ -3,10 +3,13 @@
 
 #include <iostream>
 #include <conio.h>
+class Base {};
+class Child : public Base {};
 using namespace std;
 constexpr char kCursor = '_';
 
 //Borders
+
 constexpr char kTopRightBorder = 187;
 constexpr char kTopLeftBorder = 201;
 constexpr char kBottomRightBorder = 188;
@@ -17,12 +20,13 @@ constexpr char kVerticalBorder = 186;
 //Arrows
 constexpr int kArrowInput = 224;
 constexpr int kLeftArrow = 75;
+constexpr int kRightArrow = 77;
 constexpr int kUpArrow = 72;
 constexpr int kDownArrow = 80;
-constexpr int kRightArrow = 77;
+
 
 //
-constexpr int kEsacpe = 27;
+constexpr int kEscape = 27;
 
 
 //Functions
@@ -36,6 +40,7 @@ void DisplayRightBorder();
 bool EditLevel(char* pLevel, int& cursorX, int& cursorY, int width, int height);
 int main()
 {
+	Child ArrayOfChild[5] = {};
 	int levelWidth;
 	int levelHeight;
 	GetLevelDimensions(levelWidth, levelHeight);
@@ -72,8 +77,14 @@ void DisplayLevel(char* pLevel, int width, int height, int cursorX,int cursorY)
 	for (int y = 0; y < height; y++) {
 		DisplayLeftBorder();
 		for (int x = 0; x < width; x++) {
-			int index = GetIndexFromXY(x, y, width);
-			cout << pLevel[index];
+			if (cursorX == x && cursorY == y) {
+				cout << kCursor;
+			}
+			else {
+				int index = GetIndexFromXY(x, y, width);
+				cout << pLevel[index];
+			}
+
 		}
 		DisplayRightBorder();
 	}
@@ -135,23 +146,23 @@ bool EditLevel(char* pLevel, int& cursorX, int& cursorY, int width, int height)
 			newCursorY++;
 			break;
 		}
-		if (newCursorX < 0) {
+		if (newCursorX < 0) 
 			newCursorX = 0;
-		}
-		else if (newCursorX == width) {
+		
+		else if (newCursorX == width) 
 			newCursorX = width - 1;
-		}
-		if (newCursorY < 0) {
+		
+		if (newCursorY < 0) 
 			newCursorY = 0;
-		}
-		else if (newCursorY == width) {
+		
+		else if (newCursorY == width) 
 			newCursorY = width - 1;
-		}
+		
 		cursorX = newCursorX;
 		cursorY = newCursorY;
 	}
 	else {
-		if (intInput == kEsacpe) {
+		if (intInput == kEscape) {
 			return true;
 		}
 		else {
@@ -161,3 +172,6 @@ bool EditLevel(char* pLevel, int& cursorX, int& cursorY, int width, int height)
 	}
 	return false;
 }
+
+
+
