@@ -6,8 +6,8 @@
 using namespace std;
 int GetIndexFromCoordinates(int x, int y, int width);
 void DrawLevel(char level[], int width, int height, int playerX, int playerY);
-void UpdatePlayerPosition(int& playerX, int& playerY);
-string kPlayerSymbol = "@";
+void UpdatePlayerPosition(char level[], int& playerX, int& playerY, int width);
+constexpr char kPlayerSymbol = '@';
 int main()
 {
 	constexpr int kwidth = 25;
@@ -33,7 +33,7 @@ int main()
 	while (true) {
 		system("cls");
 		DrawLevel(levelArray, kwidth, kheight, playerX, playerY);
-		UpdatePlayerPosition(playerX, playerX);
+		UpdatePlayerPosition(levelArray,playerX, playerY,kwidth);
 	}
 
 }
@@ -61,34 +61,44 @@ void DrawLevel(char level[], int width, int height, int playerX, int playerY)
 	}
 }
 
-void UpdatePlayerPosition(int& playerX, int& playerY)
+void UpdatePlayerPosition(char level[], int& playerX, int& playerY, int width)
 {
 	char input = _getch();
+	int newPlayerX = playerX;
+	int newPlayerY = playerY;
 	switch (input)
 	{
 		//player Y decreases when W is pressed
 	case 'w':
 	case'W':
 	{
-		playerY--;
+		newPlayerY--;
 		break;
 	}
 	//player Y increases when S is pressed
 	case 's':
 	case 'S':
 	{
-		playerY++;
+		newPlayerY++;
 		break;
 	}
 	case 'a':
 	case 'A': {
-		playerX--;
+		newPlayerX--;
+		break;
 	}
 	case 'd':
 	case 'D': {
-		playerX++;
+		newPlayerX++;
+		break;
 	}
 	default:
 		break;
+	}
+	//we get us where the player wants to move
+	int index = GetIndexFromCoordinates(newPlayerX, newPlayerY, width);
+	if (level[index] == ' ') {
+		playerX = newPlayerX;
+		playerY = newPlayerY;
 	}
 }
