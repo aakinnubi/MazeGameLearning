@@ -2,19 +2,26 @@
 //
 
 #include <iostream>
+using namespace std;
 
+void GetLevelDimensions(int& width, int& height);
 int main()
 {
-    std::cout << "Hello World!\n \n"; 
+	int levelWidth;
+	int levelHeight;
+	GetLevelDimensions(levelWidth, levelHeight);
+	char* pLevel = new char[levelWidth * levelHeight];
+	for (int i = 0; i < levelWidth * levelHeight; i++) {
+		pLevel[i] = ' ';
+	}
+	delete[] pLevel;
+	pLevel = nullptr;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void GetLevelDimensions(int& width, int& height)
+{
+	cout << "Enter the width of your level: ";
+	cin >> width;
+	cout << "Enter the height of your level: ";
+	cin >> height;
+}
