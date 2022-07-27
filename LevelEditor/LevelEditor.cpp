@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <conio.h>
+#include <fstream>
 class Base {};
 class Child : public Base {};
 using namespace std;
@@ -38,6 +39,7 @@ void DisplayBottomBorder(int width);
 void DisplayLeftBorder();
 void DisplayRightBorder();
 bool EditLevel(char* pLevel, int& cursorX, int& cursorY, int width, int height);
+void SaveLevel(char* pLevel, int width, int height);
 int main()
 {
 	Child ArrayOfChild[5] = {};
@@ -58,6 +60,10 @@ int main()
 	}
 	 system("cls");
 	 DisplayLevel(pLevel, levelWidth, levelHeight,-1,-1);
+
+	 //Save the level 
+	 SaveLevel(pLevel, levelWidth, levelHeight);
+
 	delete[] pLevel;
 	pLevel = nullptr;
 }
@@ -171,6 +177,31 @@ bool EditLevel(char* pLevel, int& cursorX, int& cursorY, int width, int height)
 		}
 	}
 	return false;
+}
+
+void SaveLevel(char* pLevel, int width, int height)
+{
+	cout << "Pick a name for your level file (e.g: Level1.txt): ";
+	string levelName;
+	cin >> levelName;
+	levelName.insert(0, "../");
+	//this needs an #include <fstream> to work 
+	ofstream levelFile;
+	levelFile.open(levelName);
+	if (!levelFile) {
+		cout << "Opening file failed" << endl;
+	}
+	else {
+		//writing to the file
+		levelFile << width << endl;
+		levelFile << height << endl;
+		levelFile.write(pLevel, width * height);
+		if (!levelFile) {
+			cout << "Write failed!" << endl;
+		}
+		levelFile.close();
+	}
+
 }
 
 
