@@ -32,6 +32,7 @@ int main()
 		while (!myGame.IsGameOver()) {
 			myGame.Run();
 		}
+		cout << "YOU WON !!!" << endl;
 	}
 
 

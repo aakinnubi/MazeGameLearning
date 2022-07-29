@@ -33,7 +33,7 @@ void Game::Unload()
 
 bool Game::IsGameOver()
 {
-	return false;
+	return m_isGameOver;
 }
 
 bool Game::Update()
@@ -43,14 +43,12 @@ bool Game::Update()
 	int newPlayerY = m_player.GetYPosition();
 	switch (input)
 	{
-		//player Y decreases when W is pressed
 	case 'w':
 	case'W':
 	{
 		newPlayerY--;
 		break;
 	}
-	//player Y increases when S is pressed
 	case 's':
 	case 'S':
 	{
@@ -72,8 +70,6 @@ bool Game::Update()
 	default:
 		break;
 	}
-	//we get us where the player wants to move
-	//int index = GetIndexFromCoordinates(newPlayerX, newPlayerY, width);
 	if (m_level.IsSpace(newPlayerX, newPlayerY)) {
 		m_player.SetPosition(newPlayerX, newPlayerY);
 	}
@@ -84,27 +80,16 @@ bool Game::Update()
 	}
 	else if (m_level.IsDoor(newPlayerX,newPlayerY) && m_player.HasKey()) {
 		m_level.OpenDoor(newPlayerX, newPlayerY);
-		//level[index] = ' ';
-		//playerHasKey = false;
 		m_player.UseKey();
 		m_player.SetPosition(newPlayerX, newPlayerY);
-	/*	playerX = newPlayerX;
-		playerY = newPlayerY;*/
 	/*	PlayDoorOpenSound();*/
 	}
 	else if (m_level.IsDoor(newPlayerX, newPlayerY) && !m_player.HasKey()) {
-		/*level[index] = ' ';
-		playerHasKey = false;
-		playerX = newPlayerX;
-		playerY = newPlayerY;*/
-		m_level.OpenDoor(newPlayerX, newPlayerY);
-		m_player.SetPosition(newPlayerX, newPlayerY);
+		/*m_level.OpenDoor(newPlayerX, newPlayerY);
+		m_player.SetPosition(newPlayerX, newPlayerY);*/
 		//PlayDoorClosedSound();
 	}
 	else if (m_level.IsGoal(newPlayerX, newPlayerY)) {
-		//level[index] = ' ';
-		//playerX = newPlayerX;
-		//playerY = newPlayerY;
 		m_player.SetPosition(newPlayerX, newPlayerY);
 		return true;
 	}
@@ -120,7 +105,6 @@ void Game::Draw()
 				m_player.Draw();
 			}
 			else {
-				/*int indexToPrint = GetIndexFromCoordinates(x, y, width);*/
 				HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 				if (m_level.IsDoor(x,y)) {
 					if (m_player.HasKey()) {
