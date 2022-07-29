@@ -15,8 +15,7 @@ Game::~Game()
 
 bool Game::Load()
 {
-	
-	return m_level.Load("Level8.txt", m_player.GetXpositionPointer(), m_player.GetYpositionPointer());
+	return m_level.Load("Level1.txt", m_player.GetXpositionPointer(), m_player.GetYpositionPointer());
 }
 
 void Game::Run()
@@ -114,6 +113,7 @@ bool Game::Update()
 
 void Game::Draw()
 {
+	system("cls");
 	for (int y = 0; y < m_level.GetHeight(); y++) {
 		for (int x = 0; x < m_level.GetWidth(); x++) {
 			if (m_player.GetXPosition() == x && m_player.GetYPosition() == y) {

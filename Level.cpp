@@ -1,15 +1,18 @@
 #include "Level.h"
 #include <iostream>
 #include <fstream>
-constexpr char WAL = 219;
-constexpr char KEY = 232;
-constexpr char DOR = 179;
-const char GOL = 36;
+constexpr char WAL = (char)219;
+constexpr char KEY = (char)232;
+constexpr char DOR = (char)179;
+const char GOL = (char)36;
 constexpr int kOpenDoorColor = 10;
 constexpr int kClosedDoorColor = 12;
 constexpr int kRegularColor = 7;
 
-Level::Level():m_pLevelData(nullptr),m_height(0),m_width(0)
+Level::Level()
+	:m_pLevelData(nullptr)
+	,m_height(0)
+	,m_width(0)
 {
 }
 
@@ -33,15 +36,18 @@ bool Level::Load(std::string levelName, int* playerX, int* playerY)
 	else {
 		constexpr int tempSize = 25;
 		char temp[tempSize];
-
 		levelFile.getline(temp, tempSize, '\n');
 		m_width = atoi(temp);
 
+		// Read height 
 		levelFile.getline(temp, tempSize, '\n');
 		m_height = atoi(temp);
 
+		// Read level
 		m_pLevelData = new char[m_width * m_height];
-		levelFile.read(m_pLevelData, m_width * m_height);
+		/*m_height =m_width;*/
+		m_pLevelData = new char[m_width * m_height];
+		levelFile.read(m_pLevelData,(long long) m_width * (long long)m_height);
 		bool anyWarnings = Convert(playerX,playerY);
 		//levelArray, width, height, playerX, playerY
 		if (anyWarnings) {
@@ -119,6 +125,8 @@ bool Level::Convert(int* playerX, int* playerY)
 					*playerY = y;
 				}
 				break;
+			case ' ':
+				break;
 			default:
 				std::cout << "Invalid character in level file: " << m_pLevelData[index] << std::endl;
 				anyWarnings = true;
@@ -131,5 +139,5 @@ bool Level::Convert(int* playerX, int* playerY)
 
 int Level::GetIndexFromCoordinates(int x, int y)
 {
-	return x + y * m_width;
+	return x + y *m_width;
 }

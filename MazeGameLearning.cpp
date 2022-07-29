@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <windows.h>
 #include <fstream>
+#include "Game.h"
 using namespace std;
 int GetIndexFromCoordinates(int x, int y, int width);
 void DrawLevel(char level[], int width, int height, int playerX, int playerY, bool playerHasKey);
@@ -25,42 +26,51 @@ constexpr int kClosedDoorColor = 12;
 constexpr int kRegularColor = 7;
 int main()
 {
-	 int width = 10;
-	int height = 10;
-	char* levelArray = LoadLevel("Level1.txt", width, height);
 
-//	char levelArray[]{  WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',KEY,WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,WAL,' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
-//						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',DOR,' ',' ',' ',' ',' ',' ',' ',' ',GOL,WAL,
-//						WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL
-//};
-	int playerX = 1;
-	int playerY = 1;
-	bool anyWarnings = ConvertLevel(levelArray, width, height, playerX, playerY);
-	bool playerHasKey = false;
-	bool gameOver = false;
-	while (!gameOver) {
-		system("cls");
-		DrawLevel(levelArray, width, height, playerX, playerY,playerHasKey);
-		gameOver = UpdatePlayerPosition(levelArray,playerX, playerY,width, playerHasKey);
+	Game myGame;
+	if (myGame.Load()) {
+		while (!myGame.IsGameOver()) {
+			myGame.Run();
+		}
 	}
-	system("cls");
-	DrawLevel(levelArray, width, height, playerX, playerY,playerHasKey);
-	cout << "YOU WIN!!!!!!!" << endl;
-	PlayWinSound();
 
-	delete[] levelArray;
+
+//	 int width = 10;
+//	int height = 10;
+//	char* levelArray = LoadLevel("Level1.txt", width, height);
+//
+////	char levelArray[]{  WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',KEY,WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,WAL,' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',WAL,
+////						WAL,' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',DOR,' ',' ',' ',' ',' ',' ',' ',' ',GOL,WAL,
+////						WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL,WAL
+////};
+//	int playerX = 1;
+//	int playerY = 1;
+//	bool anyWarnings = ConvertLevel(levelArray, width, height, playerX, playerY);
+//	bool playerHasKey = false;
+//	bool gameOver = false;
+//	while (!gameOver) {
+//		system("cls");
+//		DrawLevel(levelArray, width, height, playerX, playerY,playerHasKey);
+//		gameOver = UpdatePlayerPosition(levelArray,playerX, playerY,width, playerHasKey);
+//	}
+//	system("cls");
+//	DrawLevel(levelArray, width, height, playerX, playerY,playerHasKey);
+//	cout << "YOU WIN!!!!!!!" << endl;
+//	PlayWinSound();
+//
+//	delete[] levelArray;
 
 }
 
@@ -210,8 +220,13 @@ char* LoadLevel(string levelName, int& width, int& height)
 		constexpr int tempSize = 25;
 		char temp[tempSize];
 
+		// Read width
 		levelFile.getline(temp, tempSize, '\n');
 		width = atoi(temp);
+
+		// Read height 
+		levelFile.getline(temp, tempSize, '\n');
+		height = atoi(temp);
 
 		char* levelData = new char[width * height];
 		levelFile.read(levelData, width * height);
@@ -254,3 +269,42 @@ bool ConvertLevel(char* levelArray, int width, int height, int& playerX, int& pl
 	}
 	return anyWarnings;
 }
+
+
+//bool Level::Load(std::string levelName, int* playerX, int* playerY)
+//{
+//	levelName.insert(0, "../");
+//	ifstream levelFile;
+//	levelFile.open(levelName);
+//	if (!levelFile)
+//	{
+//		cout << "Opening file failed: " << levelName << endl;
+//		return false;
+//	}
+//	else
+//	{
+//		constexpr int tempSize = 25;
+//		char temp[tempSize];
+//
+//		// Read width
+//		levelFile.getline(temp, tempSize, '\n');
+//		m_width = atoi(temp);
+//
+//		// Read height 
+//		levelFile.getline(temp, tempSize, '\n');
+//		m_height = atoi(temp);
+//
+//		// Read level
+//		m_pLevelData = new char[m_width * m_height];
+//		levelFile.read(m_pLevelData, (long long)m_width * (long long)m_height);
+//
+//		// Convert level
+//		bool anyWarnings = ConvertLevel(playerX, playerY);
+//		if (anyWarnings)
+//		{
+//			cout << "There were some warnings in the level data, see above." << endl;
+//			system("pause");
+//		}
+//		return true;
+//	}
+//}

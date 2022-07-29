@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <iostream>
 constexpr char kPlayerSymbol = '@';
 
 Player::Player() :m_hasKey(false)
@@ -9,15 +10,8 @@ Player::~Player()
 {
 }
 
-int Player::GetXPosition()
-{
-	return m_position.x;
-}
 
-int Player::GetYPosition()
-{
-	return m_position.x;
-}
+
 
 void Player::SetPosition(int x, int y)
 {
@@ -42,4 +36,5 @@ void Player::UseKey()
 
 void Player::Draw()
 {
+std::cout << kPlayerSymbol;
 }

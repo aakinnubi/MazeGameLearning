@@ -7,16 +7,16 @@ class Player
 public:
 	Player();
 	~Player();
-	int GetXPosition();
-	int GetYPosition();
-	int* GetXpositionPointer() { return &(m_position.x); }
-	int* GetYpositionPointer() { return &(m_position.y); }
+	int GetXPosition(){ return m_position.x; };
+	int GetYPosition(){ return m_position.y; };
+
 	void SetPosition(int x, int y);
 	bool HasKey();
 	void PickupKey();
 	void UseKey();
 	void Draw();
-
+	int* GetXpositionPointer() { return &(m_position.x); }
+	int* GetYpositionPointer() { return &(m_position.y); }
 private:
 
 };
