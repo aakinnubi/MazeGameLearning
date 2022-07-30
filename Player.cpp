@@ -54,7 +54,7 @@ void Player::Draw()
 std::cout << kPlayerSymbol;
 }
 
-void Player::Draw()
-{
-	cout << '@';
-}
+//void Player::Draw()
+//{
+//	cout << '@';
+//}

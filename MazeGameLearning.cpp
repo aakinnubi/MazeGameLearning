@@ -23,7 +23,7 @@ constexpr char DOR = 179;
 const char GOL = 36;
 constexpr int kOpenDoorColor = 10;
 constexpr int kClosedDoorColor = 12;
-constexpr int kRegularColor = 7;
+//constexpr int kRegularColor = 7;
 int main()
 {
 

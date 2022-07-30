@@ -13,13 +13,13 @@ public:
 	void UseKey();
 	void DropKey();
 
-	void AddMoeny(int money) { m_money += money; }
+	void AddMoney(int money) { m_money += money; }
 	int GetMoney() { return m_money; }
 	int GetLives() { return m_lives; }
 	void DecrementLives() { m_lives--; }
 
 	virtual void Draw() override;
-
+	virtual ~Player();
 private:
 	Key* m_pCurrentKey;
 	int m_money;
