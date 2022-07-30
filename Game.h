@@ -13,7 +13,7 @@ public:
 	bool Load();
 	void Run();
 
-
+	/*virtual ActorType GeType() override { return ActorType::Door; }*/
 	bool IsGameOver();
 	bool DidUSerQuit() { return m_UserQuit; }
 	int GetPlayerLives() { return m_player.GetLives(); }
@@ -25,5 +25,9 @@ private:
 	void Draw();
 
 	bool HandleCollision(int newPlayerX, int newPlayerY);
+	bool ActorEnemyIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
+	void ActorMoneyIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
+	void ActorDoorReachedIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
+	bool ActorGoalReachedIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
 };
 

@@ -6,7 +6,7 @@ public :
 		Enemy(int x, int y, int deltX = 0, int deltaY = 0);
 		virtual void Draw() override;
 		virtual void Update() override;
-
+		virtual ActorType GeType() override { return ActorType::Enemy; }
 private:
 	int m_movementInX;
 	int m_movementInY;

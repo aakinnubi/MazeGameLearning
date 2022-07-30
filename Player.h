@@ -8,10 +8,11 @@ class Player: public PlacableActor
 public:
 	Player();
 	bool HasKey();
-	bool HasKey(int color);
+	bool HasKey(ActorColor color);
 	void PickupKey(Key* key);
 	void UseKey();
 	void DropKey();
+	virtual ActorType GeType() override { return ActorType::Player; }
 
 	void AddMoney(int money) { m_money += money; }
 	int GetMoney() { return m_money; }
