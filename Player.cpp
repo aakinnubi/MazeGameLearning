@@ -1,7 +1,8 @@
 #include "Player.h"
 #include <iostream>
+#include "AudioManager.h"
 using namespace std;
-constexpr char kPlayerSymbol = '@';
+
 
 constexpr int kStartingNumberOfLives = 3;
 
@@ -11,15 +12,6 @@ Player::Player() :PlacableActor(0,0)
 ,m_lives(kStartingNumberOfLives)
 {
 }
-
-Player::~Player()
-{
-}
-
-
-
-
-
 bool Player::HasKey()
 {
 	return m_pCurrentKey != nullptr;
@@ -29,6 +21,10 @@ bool Player::HasKey(ActorColor color)
 {
 	return HasKey() && m_pCurrentKey->GetColor() == color;
 }
+Player::~Player()
+{
+}
+
 
 void Player::PickupKey(Key* key)
 {
@@ -41,9 +37,16 @@ void Player::UseKey()
 	m_pCurrentKey = nullptr;
 }
 
+
+
+
+
+
+
 void Player::DropKey()
 {
 	if (m_pCurrentKey) {
+		AudioManager::GetInstance()->PlayKeyDropSound();
 		m_pCurrentKey->Place(m_pPosition->x, m_pPosition->y);
 		m_pCurrentKey = nullptr;
 	}
@@ -51,7 +54,7 @@ void Player::DropKey()
 
 void Player::Draw()
 {
-std::cout << kPlayerSymbol;
+std::cout << "@";
 }
 
 //void Player::Draw()

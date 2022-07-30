@@ -8,6 +8,7 @@
 #include "Door.h"
 #include "Money.h"
 #include "Goal.h"
+#include "AudioManager.h"
 
 using namespace std;
 
@@ -135,18 +136,22 @@ bool Game::HandleCollision(int newPlayerX, int newPlayerY)
 		switch (collidedActor->GeType())
 		{
 		case ActorType::Enemy:
-		 ActorEnemyIsCollided(collidedActor, newPlayerX, newPlayerY);
+			isGameDone = ActorEnemyIsCollided(collidedActor, newPlayerX, newPlayerY);
 		/*	if (isCollidedDecrementLives) {
 
 			}*/
 			
 			break;
-		case ActorType::Money:
-			ActorMoneyIsCollided(collidedActor, newPlayerX, newPlayerY);
+		case ActorType::Key:
+			CollidedKeyPickedUp(collidedActor, newPlayerX, newPlayerY);
 			break;
 		case ActorType::Door:
 			ActorDoorReachedIsCollided(collidedActor, newPlayerX, newPlayerY);
 			break;
+		case ActorType::Money:
+		 ActorMoneyIsCollided(collidedActor, newPlayerX, newPlayerY);
+			break;
+
 		case ActorType::Goal:
 			isGameDone = ActorGoalReachedIsCollided(collidedActor, newPlayerX, newPlayerY);
 			if (isGameDone) return isGameDone;
@@ -169,10 +174,24 @@ bool Game::HandleCollision(int newPlayerX, int newPlayerY)
 	return isGameDone;
 }
 
+void Game::CollidedKeyPickedUp(PlacableActor* collidedActor, int newPlayerX, int newPlayerY)
+{
+	Key* collidedKey = dynamic_cast<Key*> (collidedActor);
+	if (collidedKey) {
+		if (!m_player.HasKey()) {
+			m_player.PickupKey(collidedKey);
+			collidedKey->Remove();
+			m_player.SetPosition(newPlayerX, newPlayerY);
+			AudioManager::GetInstance()->PlayKeyPickupSound();
+		}
+	}
+}
+
 bool Game::ActorEnemyIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY)
 {
 	Enemy* collidedEnemy = dynamic_cast<Enemy*>(collidedActor);
 	if (collidedEnemy) {
+		AudioManager::GetInstance()->PlayLoseLiveSound();
 		collidedEnemy->Remove();
 		m_player.SetPosition(newPlayerX, newPlayerY);
 		m_player.DecrementLives();
@@ -188,17 +207,12 @@ void Game::ActorMoneyIsCollided(PlacableActor* collidedActor, int newPlayerX, in
 {
 	Money* collidedMoney = dynamic_cast<Money*> (collidedActor);
 	if (collidedMoney) {
+		AudioManager::GetInstance()->PlayMoneySound();
 		collidedMoney->Remove();
 		m_player.AddMoney(collidedMoney->GetWorth());
 		m_player.SetPosition(newPlayerX, newPlayerY);
 	}
-	Key* collidedKey = dynamic_cast<Key*> (collidedActor);
-	if (collidedKey) {
-		if (!m_player.HasKey()) {
-			m_player.PickupKey(collidedKey);
-			collidedKey->Remove();
-		}
-	}
+	
 }
 
 void Game::ActorDoorReachedIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY)
@@ -211,9 +225,10 @@ void Game::ActorDoorReachedIsCollided(PlacableActor* collidedActor, int newPlaye
 				collidedDoor->Remove();
 				m_player.UseKey();
 				m_player.SetPosition(newPlayerX, newPlayerY);
+				AudioManager::GetInstance()->PlayDoorOpenSound();
 			}
 			else {
-
+				AudioManager::GetInstance()->PlayDoorClosedSound();
 			}
 		}
 		else {

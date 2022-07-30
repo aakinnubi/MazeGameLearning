@@ -33,6 +33,10 @@ public:
 	{
 		Beep(1568, 200);
 	}
+	void PlayKeyDropSound()
+	{
+		Beep(1556, 200);
+	}
 
 	void PlayWinSound()
 	{

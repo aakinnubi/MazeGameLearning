@@ -22,6 +22,6 @@ public:
 	int GetWidth() { return m_width; }
 
 private:
-	bool Convert(int* playerX, int* playerY);
+	bool ConvertLevel(int* playerX, int* playerY);
 	int GetIndexFromCoordinates(int x, int y);
 };

@@ -59,7 +59,7 @@ bool Level::Load(std::string levelName, int* playerX, int* playerY)
 		/*m_height =m_width;*/
 		m_pLevelData = new char[m_width * m_height];
 		levelFile.read(m_pLevelData,(long long) m_width * (long long)m_height);
-		bool anyWarnings = Convert(playerX,playerY);
+		bool anyWarnings = ConvertLevel(playerX,playerY);
 		//levelArray, width, height, playerX, playerY
 		if (anyWarnings) {
 			std::cout << "There were some warnings in the level data, see above." << std::endl;
@@ -124,7 +124,7 @@ bool Level::IsWall(int x, int y)
 	return m_pLevelData[GetIndexFromCoordinates(x, y)] == WAL;
 }
 
-bool Level::Convert(int* playerX, int* playerY)
+bool Level::ConvertLevel(int* playerX, int* playerY)
 {
 	bool anyWarnings = false;
 	for (int y = 0; y < m_height; y++) {
@@ -133,8 +133,8 @@ bool Level::Convert(int* playerX, int* playerY)
 			switch (m_pLevelData[index])
 			{
 			case'+':
-			case'-':
 			case'|':
+			case'-':
 				m_pLevelData[index] = WAL;
 				break;
 			case 'r':
@@ -155,11 +155,11 @@ bool Level::Convert(int* playerX, int* playerY)
 				break;
 			case 'G':
 				m_pLevelData[index] = ' ';
-				m_pActors.push_back(new Door(x, y, ActorColor::Red, ActorColor::SolidRed));
+				m_pActors.push_back(new Door(x, y, ActorColor::Green, ActorColor::SolidGreen));
 				break;
 			case 'B':
 				m_pLevelData[index] = ' ';
-				m_pActors.push_back(new Door(x, y, ActorColor::Red, ActorColor::SolidBlue));
+				m_pActors.push_back(new Door(x, y, ActorColor::Blue, ActorColor::SolidBlue));
 				break;
 			case 'X':
 				m_pLevelData[index] = ' ';

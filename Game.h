@@ -25,6 +25,7 @@ private:
 	void Draw();
 
 	bool HandleCollision(int newPlayerX, int newPlayerY);
+	void CollidedKeyPickedUp(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
 	bool ActorEnemyIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
 	void ActorMoneyIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
 	void ActorDoorReachedIsCollided(PlacableActor* collidedActor, int newPlayerX, int newPlayerY);
