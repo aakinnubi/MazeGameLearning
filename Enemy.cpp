@@ -6,15 +6,10 @@ Enemy::Enemy(int x, int y, int deltX, int deltaY) : PlacableActor(x,y)
 ,m_currentMovementY(0)
 ,m_directionX(0)
 ,m_directionY(0)
-,m_movementInX(0)
-,m_movementInY(0)
+,m_movementInX(deltX)
+,m_movementInY(deltaY)
 {
-	if (m_movementInX != 0) {
-		m_directionX = 1;
-	}
-	if (m_movementInY != 0) {
-		m_directionY = 1;
-	}
+	InitDirection();
 }
 void Enemy::Draw()
 {
@@ -29,6 +24,16 @@ void Enemy::Update()
 		UpdateDirection(m_currentMovementY, m_directionY, m_movementInY);
 	}
 	this->SetPosition(m_pPosition->x + m_directionX, m_pPosition->y + m_directionY);
+}
+
+void Enemy::InitDirection()
+{
+	if (m_movementInX != 0) {
+		m_directionX = 1;
+	}
+	if (m_movementInY != 0) {
+		m_directionY = 1;
+	}
 }
 
 void Enemy::UpdateDirection(int& current, int& direction, int& movement)

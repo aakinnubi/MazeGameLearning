@@ -7,6 +7,9 @@ public :
 		virtual void Draw() override;
 		virtual void Update() override;
 		virtual ActorType GeType() override { return ActorType::Enemy; }
+
+protected:
+	void InitDirection();
 private:
 	int m_movementInX;
 	int m_movementInY;
